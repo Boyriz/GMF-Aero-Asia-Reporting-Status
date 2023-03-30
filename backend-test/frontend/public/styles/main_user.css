@@ -1,0 +1,222 @@
+body {
+  background-color: rgb(0, 1, 26);
+  font-family: "Assistant", sans-serif, "Rowdies", cursive;
+  color: #05001f;
+  background: url("https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhEt-xP4PGl7rTzoWjsHeSXu_VrjTjN2iAklfzWlNVS5M4HGN0LCS2p-FoZKLrLxGL9V8JlF2mV-3ErIr5cEQGy5Zrp-EReERe6WtNYX90kMk8ExUFR51Ck9Fc2Bh5lSoC0FhbGnI4TiZbrvUyQ4I7Qp2k9qimtMRBn6Mn3yvjPZTBWmTDcSCfarOW1/w1200-h675-p-k-no-nu/IMG-20220726-WA0013.jpg") no-repeat center center fixed;
+  background-size: cover;
+  -o-background-size: cover;
+  width: 100%;
+  overflow: hidden;
+}
+
+.navbar {
+  margin-top: -50px;
+}
+
+#navbarUser {
+  margin-top: 0px;
+}
+
+.navbar-brand img {
+  max-height: 40px;
+}
+
+.btn-navbar-right {
+  margin-top: -8px !important;
+  margin-bottom: -8px !important;
+  margin-right: -18px !important;
+  height: 70px;
+  border-radius: 0;
+}
+
+#radius-shape-1 {
+  height: 220px;
+  width: 220px;
+  top: -60px;
+  left: -130px;
+  background: radial-gradient(#07006b, #1f88ff);
+  overflow: hidden;
+}
+
+#radius-shape-2 {
+  border-radius: 38% 62% 63% 37%/70% 33% 67% 30%;
+  bottom: -60px;
+  right: -110px;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(#096b00, #1fff62);
+  overflow: hidden;
+}
+
+.btn-login {
+  background-color: rgb(0, 3, 43);
+  color: rgb(255, 255, 255);
+}
+.btn-login:hover {
+  background-color: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
+}
+
+.section-footer a {
+  color: #071c4d;
+}
+
+.section-details-content {
+  margin-top: 5px;
+  min-height: 20vh;
+}
+.section-details-content #textColor {
+  color: rgb(20, 0, 110);
+  font-family: "Times New Roman", Times, serif;
+  font-style: italic;
+  padding-bottom: 10px;
+}
+.section-details-content .card-details {
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #ffffff;
+}
+.section-details-content .card-details h1 {
+  font-size: 40px;
+  color: #ffffff;
+  font-style: italic;
+  font-weight: bold;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+}
+.section-details-content .card-details p {
+  font-size: 18px;
+  color: #b1b1b1;
+}
+.section-details-content .card-right {
+  background-color: #fff;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom: none;
+}
+.section-details-content .card-right h2 {
+  font-size: 30px;
+  text-align: center;
+  color: #345174;
+  font-family: "Rowdies", cursive;
+}
+.section-details-content .card-right p {
+  margin-bottom: 0px;
+  font-family: "Assistant";
+  color: #05001f;
+  font-style: italic;
+}
+.section-details-content .card-right .card-body .join-container {
+  background-color: #ffffff;
+  color: rgb(0, 0, 0);
+}
+.section-details-content .card-right .card-body .join-container:hover {
+  background-color: rgb(15, 22, 209);
+  color: rgb(255, 255, 255);
+}
+.section-details-content .card-right .btn-search {
+  background-color: #f7f7f7;
+  color: rgb(10, 10, 10);
+  border-radius: 0;
+}
+.section-details-content .card-right .btn-search:hover {
+  background-color: rgb(13, 18, 172);
+  color: rgb(255, 255, 255);
+}
+
+.section-table .card-details h1 {
+  font-style: italic;
+  font-weight: bold;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  margin-left: 600px;
+}
+.section-table #toolbar {
+  padding-top: 10px;
+  padding-bottom: 0px;
+}
+.section-table #buttonUpdate {
+  margin-left: 15px;
+}
+.section-table .btn-label {
+  margin-left: 20cm;
+}
+.section-table #buttonBar {
+  margin-left: 600px;
+  padding-bottom: -5cm;
+  padding-top: 5px;
+}
+
+.divider:after,
+.divider:before {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #eee;
+}
+
+.h-custom {
+  height: calc(100% - 73px);
+}
+
+@media (max-width: 450px) {
+  .h-custom {
+    height: 100%;
+  }
+}
+.form-login p {
+  font-size: 50px;
+}
+
+.results tr[visible=false],
+.no-result {
+  display: none;
+}
+
+.results tr[visible=true] {
+  display: table-row;
+}
+
+.counter {
+  padding: 8px;
+  color: #ccc;
+}
+
+.my-custom-scrollbar {
+  position: relative;
+  height: 350px;
+  overflow: auto;
+}
+
+.table-wrapper-scroll-y {
+  display: block;
+}
+
+.table-wrapper-scroll-x {
+  display: block;
+}
+
+.select,
+#locale {
+  width: 100%;
+}
+
+.like {
+  margin-right: 10px;
+}
+
+.table-content {
+  width: 450px;
+  margin: 50px auto;
+  text-align: center;
+}
+
+td {
+  width: 100px;
+}
+
+.mt-100 {
+  margin-top: 100px;
+}
+
+.container-fluid {
+  margin-top: 50px;
+}/*# sourceMappingURL=main_user.css.map */

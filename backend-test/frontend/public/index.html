@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap4.min.css">
+   
+    <link href="https://unpkg.com/vuesax@4.0.1-alpha.16/dist/vuesax.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.css">
+
+    <link href="https://fonts.googleapis.com/css?family=Work+Sans:300,400,500,600,700" rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+    <link rel="stylesheet" href="./styles/main.css" />
+    <title><%= htmlWebpackPlugin.options.title %></title>
+  </head>
+  <body>
+    <noscript>
+      <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+    </noscript>
+    <div id="app">
+    </div>
+    <!-- built files will be auto injected -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.13/vue.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <script src="https://use.fontawesome.com/24fc242ce0.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/16.3.5/Tween.min.js"></script>
+
+    <!-- ajax -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.10/lodash.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+    <!-- jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="./libraries/jquery/jquery-3.4.1.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/tableexport.jquery.plugin/tableExport.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/jquery.table2excel.min.js"></script>
+
+    <!-- Bootstrap JS -->
+    <script src="./libraries/bootstrap/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/bootstrap-table@1.21.2/dist/bootstrap-table.min.js"></script>
+    <script src="https://unpkg.com/bootstrap-table@1.21.2/dist/bootstrap-table-locale-all.min.js"></script>
+    <script src="https://unpkg.com/bootstrap-table@1.21.2/dist/extensions/export/bootstrap-table-export.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap4.min.js"></script>
+
+    <!-- Vue -->
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vuesax@4.0.1-alpha.16/dist/vuesax.min.js"></script>
+    
+
+    <script>
+      $(document).ready(function() {
+          $(".search").keyup(function () {
+            var searchTerm = $(".search").val();
+            var listItem = $('.results tbody').children('tr');
+            var searchSplit = searchTerm.replace(/ /g, "'):containsi('")
+            
+          $.extend($.expr[':'], {'containsi': function(elem, i, match, array){
+                return (elem.textContent || elem.innerText || '').toLowerCase().indexOf((match[3] || "").toLowerCase()) >= 0;
+            }
+          });
+            
+          $(".results tbody tr").not(":containsi('" + searchSplit + "')").each(function(e){
+            $(this).attr('visible','false');
+          });
+
+          $(".results tbody tr:containsi('" + searchSplit + "')").each(function(e){
+            $(this).attr('visible','true');
+          });
+
+          var jobCount = $('.results tbody tr[visible="true"]').length;
+            $('.counter').text(jobCount + ' item');
+
+          if(jobCount == '0') {$('.no-result').show();}
+            else {$('.no-result').hide();}
+              });
+        });
+
+        $(function(){
+      //button select all or cancel
+          $("#select-all").click(function () {
+              var all = $("input.select-all")[0];
+              all.checked = !all.checked
+              var checked = all.checked;
+              $("input.select-item").each(function (index,item) {
+                  item.checked = checked;
+              });
+          });
+          //column checkbox select all or cancel
+          $("input.select-all").click(function () {
+              var checked = this.checked;
+              $("input.select-item").each(function (index,item) {
+                  item.checked = checked;
+              });
+          });
+          //check selected items
+          $("input.select-item").click(function () {
+              var checked = this.checked;
+              var all = $("input.select-all")[0];
+              var total = $("input.select-item").length;
+              var len = $("input.select-item:checked:checked").length;
+              all.checked = len===total;
+          });
+        });
+        
+            
+  </script>
+  </body>
+</html>

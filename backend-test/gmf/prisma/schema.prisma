@@ -1,0 +1,345 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["views"]
+
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                      String  @unique @default(uuid())
+  //idNumber Int 
+  email                   String  @unique
+  hashedPassword          String 
+  createdAt               DateTime @default(now())
+  updateAt                DateTime @updatedAt()
+  role                    String?
+}
+
+model Operator {
+  id                      Int @id @default(autoincrement())
+  operator                String?
+  ACType ACType []
+  AircraftDoc AircraftDoc []
+}
+
+model ACType {
+  id                      Int @id @default(autoincrement())
+  acType                  String @unique
+  operatorId              Int?
+  Operator Operator? @relation(fields: [operatorId], references: [id])
+  Registration Registration[]
+  AircraftDoc AircraftDoc []
+}
+
+model Registration {
+  id                      Int @id @default(autoincrement())
+  registration            String @unique
+  acTypeId                Int?
+  ACType ACType? @relation(fields: [acTypeId], references: [id])
+  ComponentStatus ComponentStatus[]
+  AircraftDoc AircraftDoc []
+  Connector Connector []
+  // Tc Tc []
+  // NonTc NonTc []
+}
+
+model ComponentStatus {
+  id                      Int @id @default(autoincrement())
+  status                  String?
+  registrationId          Int?
+  Registration Registration? @relation(fields: [registrationId], references: [id])
+  AircraftDoc AircraftDoc []
+}
+
+model AircraftDoc {
+  id                      Int @id @default(autoincrement())
+  operatorId              Int?
+  registrationId          Int?
+  acTypeId                Int?
+  statusId                Int?
+  Operator Operator? @relation(fields: [operatorId], references: [id])
+  Registration Registration? @relation(fields: [registrationId], references: [id])
+  ACType ACType? @relation(fields: [acTypeId], references: [id])
+  ComponentStatus ComponentStatus? @relation(fields: [statusId], references: [id])
+  timeControlled timeControlled []
+  nontimeControlled nontimeControlled []
+  // Tc Tc []
+  // NonTc NonTc []
+}
+
+model FunctionalLocation {
+  id                      Int @id @default(autoincrement())
+  functionalLocation      String @unique
+  connectorId             Int
+  Connector Connector? @relation(fields: [connectorId], references: [connector])
+  MPNumber MPNumber []
+}
+
+model PartNumber {
+  id                      Int @id @default(autoincrement())
+  partNumber              String @unique
+  connectorId             Int
+  Connector Connector? @relation(fields: [connectorId], references: [connector])
+  MPNumber MPNumber []
+}
+
+model SerialNumber {
+  id                      Int @id @default(autoincrement())
+  serialNumber              String @unique
+  connectorId             Int
+  Connector Connector? @relation(fields: [connectorId], references: [connector])
+  MPNumber MPNumber []
+}
+
+model Description {
+  id                      Int @id @default(autoincrement())
+  description              String @unique
+  connectorId             Int
+  Connector Connector? @relation(fields: [connectorId], references: [connector])
+  MPNumber MPNumber []
+}
+
+model Task {
+  id                      Int @id @default(autoincrement())
+  task              String @unique
+  connectorId             Int
+  Connector Connector? @relation(fields: [connectorId], references: [connector])
+  MPNumber MPNumber []
+}
+
+model InstallDate {
+  id                      Int @id @default(autoincrement())
+  installDate             DateTime @updatedAt()
+  connectorId             Int
+  Connector Connector? @relation(fields: [connectorId], references: [connector])
+  MPNumber MPNumber []
+}
+
+model TSN {
+  id                      Int @id @default(autoincrement())
+  tsnHRS                  Int?
+  tsnCYC                  Int?
+  connectorId             Int
+  Connector Connector? @relation(fields: [connectorId], references: [connector])
+  MPNumber MPNumber []
+}
+
+model Interval {
+  id                      Int @id @default(autoincrement())
+  intervalHRS             Int?
+  intervalCYC             Int?
+  intervalDAYS            Int?
+  connectorId             Int
+  Connector Connector? @relation(fields: [connectorId], references: [connector])
+  MPNumber MPNumber []
+}
+
+model TSLA {
+  id                      Int @id @default(autoincrement())
+  tslaHRS                 Int?
+  tslaCYC                 Int?
+  tslaDAYS                Int?
+  connectorId             Int
+  Connector Connector? @relation(fields: [connectorId], references: [connector])
+  MPNumber MPNumber []
+}
+
+model LifeRemaining {
+  id                      Int @id @default(autoincrement())
+  lifeRemaining           Int?
+  connectorId             Int
+  Connector Connector? @relation(fields: [connectorId], references: [connector])
+  MPNumber MPNumber []
+}
+
+model MPNumber {
+  id                      Int @id @default(autoincrement())
+  functionalLocationId    Int?
+  partNumberId            Int?
+  serialNumberId          Int?
+  descriptionId           Int?
+  taskId                  Int?
+  installDateId           Int?
+  tsnId                   Int?
+  intervalId              Int?
+  tslaId                  Int?
+  lifeRemainingId         Int?
+  FunctionalLocation FunctionalLocation? @relation(fields: [functionalLocationId], references: [id])
+  PartNumber PartNumber? @relation(fields: [partNumberId], references: [id])
+  SerialNumber SerialNumber? @relation(fields: [serialNumberId], references: [id])
+  Description  Description? @relation(fields: [descriptionId], references: [id])
+  Task Task? @relation(fields: [taskId], references: [id])
+  InstallDate InstallDate? @relation(fields: [installDateId], references: [id])
+  TSN TSN? @relation(fields: [tsnId], references: [id])
+  Interval Interval? @relation(fields: [intervalId], references: [id])
+  TSLA TSLA? @relation(fields: [tslaId], references: [id])
+  LifeRemaining LifeRemaining? @relation(fields: [lifeRemainingId], references: [id])
+  timeControlled timeControlled []
+  nontimeControlled nontimeControlled []
+}
+
+model timeControlled {
+  id                      Int @id @default(autoincrement())
+  functionalLocation      String @unique
+  partNumber              String @unique
+  serialNumber            String?
+  description             String?
+  task                    String?
+  mpNumberId              Int?
+  installDate             DateTime @updatedAt()
+  tsnHRS                  Int? @map("taken_hours")
+  tsnCYC                  Int?
+  intervalHRS             Int?
+  intervalCYC             Int?
+  intervalDAYS            Int?
+  tslaHRS                 Int?
+  tslaCYC                 Int?
+  tslaDAYS                Int?
+  lifeRemaining           Int?
+  aircraftDocId           Int?
+  AircraftDoc AircraftDoc? @relation(fields: [aircraftDocId], references: [id])
+  MPNumber MPNumber? @relation(fields: [mpNumberId], references: [id])
+}
+
+model nontimeControlled {
+  id                      Int @id @default(autoincrement())
+  functionalLocation      String @unique
+  partNumber              String @unique
+  serialNumber            String?
+  description             String?
+  mpNumberId                Int?
+  task                    String?
+  installDate             DateTime @updatedAt()
+  tsnHRS                  Int?
+  tsnCYC                  Int?
+  intervalHRS             Int?
+  intervalCYC             Int?
+  intervalDAYS            Int?
+  tslaHRS                 Int?
+  tslaCYC                 Int?
+  tslaDAYS                Int?
+  lifeRemaining           Int?
+  aircraftDocId           Int?
+  AircraftDoc AircraftDoc? @relation(fields: [aircraftDocId], references: [id])
+  MPNumber MPNumber? @relation(fields: [mpNumberId], references: [id])
+}
+
+model Tc {
+  mandt                   Int
+  warpl                   Int @id @map("Maintenance_Plan")
+  wapos                   Int @unique @map("Maintenance_Item")
+  qmnum                   String  @map("Notification_No")
+  qmart                   String  @map("Notification_Type")
+  mptyp                   String @unique @map("Maintenance_Plan_Category")
+  vDuedt                  DateTime @updatedAt() @map("LLP_Due_Off_Date")
+  vUnit                   String  @map("LLP_Unit")
+  vLifeRem                String @map("LLP_Life_Remaining")
+  vTsnBld                 String @map("Time_Since_New_BLD")
+  vTsiCyc                 String @map("TSI_CYC")
+  vTsiHrs                 String @map("TSI_HRS")
+  vTsoBld                 String @map("TSO_BLD")
+  vTstCyc                 String @map("TST_CYC")
+  vTstHrs                 String @map("TST_HRS")
+  vTsoCyc                 String @map("TS0_CYC")
+  vTsoHrs                 String @map("TSO_HRS")
+  vTsnCyc                 String @map("Time_Since_New_CYC")
+  vTsnHrs                 String @map("Time_Since_New_HRS")
+  vIntDays                String @map("Interval_DAYS")
+  vInstalldt              DateTime @updatedAt @map("Install_Date")
+  tplnr                   String @unique @map("Registration")
+  vPosition               String @map("Functional_Location")
+  vDesc                   String @map("Description")
+  vSn                     String @map("Serial_Number")
+  vPn                     String @map("Part_Number")
+  vEqunr                  String @unique @map("Equipment_No")
+  vTask                   String
+  vDocVer                 String @map("Document_version")
+  vDocPart                String @map("Document_Part")
+  vDocNo                  String @map("Document_No")
+  vDocType                String @map("Document_Type")
+  vMpd                    String
+  vAta                    String
+  zstatus                 String @map("Status")
+  erdat                   DateTime @updatedAt @map("Date_record_created")
+  Connector Connector []
+  // Registration Registration? @relation(fields: [tplnr], references: [registration])
+  // // aircraftDocId           Int
+  // AircraftDoc AircraftDoc? @relation(fields: [aircraftDocId], references: [id])
+}
+
+model NonTc {
+  mandt                   Int
+  vEqunr                  Int @id @map("Equipment_No")
+  vTsnBld                 String @map("Time_Since_New_BLD")
+  vTsiCyc                 String @map("TSI_CYC")
+  vTsiHrs                 String @map("TSI_HRS")
+  vTsnCyc                 String @map("Time_Since_New_CYC")
+  vTsnHrs                 String @map("Time_Since_New_HRS")
+  vInstalldt              DateTime @updatedAt @map("Install_Date")
+  tplnr                   String @unique @map("Registration")
+  vPosition               String @map("Functional_Location")
+  vDesc                   String @map("Description")
+  vSn                     String @map("Serial_Number") 
+  vPn                     String @map("Part_Number")
+  zstatus                 String @map("Status")
+  erdat                   DateTime @updatedAt @map("Date_record_created")
+  Connector Connector []
+  // Registration Registration? @relation(fields: [tplnr], references: [registration])
+  // aircraftDocId           Int
+  // AircraftDoc AircraftDoc? @relation(fields: [aircraftDocId], references: [id])
+}
+
+model Connector {
+  connector               Int @id @default(autoincrement())
+  warplId                 Int? 
+  vEqunrId                Int?
+  registrationId          Int?
+  Tc Tc? @relation(fields: [warplId], references: [warpl])
+  NonTc NonTc? @relation(fields: [vEqunrId], references: [vEqunr])
+  Registration Registration? @relation(fields: [registrationId], references: [id])
+  FunctionalLocation FunctionalLocation[]
+  PartNumber PartNumber []
+  SerialNumber SerialNumber []
+  Description Description []
+  Task Task []
+  InstallDate InstallDate []
+  TSN TSN []
+  Interval Interval []
+  TSLA TSLA []
+  LifeRemaining LifeRemaining []
+  viewConnector viewConnector []
+}
+
+view viewConnector {
+  id BigInt @map("id_view") @id
+  Functional_Location String @map("tc_functional_location")
+  Part_Number String @map("tc_part_number")
+  Serial_Number String @map("tc_serial_number")
+  Description String @map("tc_description")
+  vTask String @map("tc_task")
+  Install_Date DateTime @updatedAt @map("tc_install_date")
+  Time_Since_New_HRS Int @map("tc_time_since_new_hrs")
+  Time_Since_New_CYC Int @map("tc_time_since_new_cyc")
+  TSI_HRS Int @map("tc_interval_hrs")
+  TSI_CYC Int @map("tc_interval_cyc")
+  Interval_Days Int @map("tc_interval_days")
+  TST_HRS Int @map("tc_time_since_last_accomplishment_hrs")
+  TST_CYC Int @map("tc_time_since_last_accomplishment_cyc")
+  LLP_Due_Off_Date DateTime @updatedAt @map("tc_next_due")
+  functionalLocation String @map("nontc_functional_location")
+  partNumber String @map("nontc_part_number")
+  serialNumber String @map("nontc_serial_number")
+  description String @map("nontc_description")
+  installDate DateTime @updatedAt @map("nontc_install_date")
+  tsnHRS Int @map("nontc_time_since_new_hrs")
+  tsnCYC Int @map("nontc_time_since_new_cyc")
+  connectorId Int @map("view_connecton_id")
+  Connector Connector? @relation(fields: [connectorId], references: [connector])
+}
